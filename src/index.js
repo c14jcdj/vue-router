@@ -625,6 +625,7 @@ function guardComponent (path, handler) {
 
 Router.installed = false
 
+<<<<<<< HEAD
 /**
  * Installation interface.
  * Install the necessary directives.
@@ -642,6 +643,10 @@ Router.install = function (externalVue) {
   Link(Vue)
   util.Vue = Vue
   Router.installed = true
+=======
+if (inBrowser && window.Vue && !window.VueRouter) {
+  window.Vue.use(VueRouter)
+>>>>>>> b6f5b20... fix(router): fixes router collision
 }
 
 // auto install

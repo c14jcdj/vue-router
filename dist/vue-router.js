@@ -6,8 +6,13 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
+<<<<<<< HEAD
   global.VueRouter = factory();
 }(this, function () { 'use strict';
+=======
+  (global = global || self, global.VueRouter = factory());
+}(this, (function () { 'use strict';
+>>>>>>> b6f5b20... fix(router): fixes router collision
 
   var babelHelpers = {};
 
@@ -467,9 +472,22 @@
     return result;
   }
 
+<<<<<<< HEAD
   function addSegment(currentState, segment) {
     segment.eachChar(function (ch) {
       var state;
+=======
+  /**
+   * Compile a string to a template function for the path.
+   *
+   * @param  {string}             str
+   * @param  {Object=}            options
+   * @return {!function(Object=, Object=)}
+   */
+  function compile (str, options) {
+    return tokensToFunction(parse(str, options), options)
+  }
+>>>>>>> b6f5b20... fix(router): fixes router collision
 
       currentState = currentState.put(ch);
     });
@@ -483,12 +501,28 @@
     return tryDecode(part, true);
   }
 
+<<<<<<< HEAD
   // The main interface
 
   var RouteRecognizer = function RouteRecognizer() {
     this.rootState = new State();
     this.names = {};
   };
+=======
+  /**
+   * Expose a method for transforming tokens into the path function.
+   */
+  function tokensToFunction (tokens, options) {
+    // Compile all the tokens into regexps.
+    var matches = new Array(tokens.length);
+
+    // Compile all the patterns before compilation.
+    for (var i = 0; i < tokens.length; i++) {
+      if (typeof tokens[i] === 'object') {
+        matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$', flags(options));
+      }
+    }
+>>>>>>> b6f5b20... fix(router): fixes router collision
 
   RouteRecognizer.prototype = {
     add: function add(routes, options) {
@@ -575,8 +609,20 @@
 
       var segments = route.segments;
 
+<<<<<<< HEAD
       for (var i = 0, l = segments.length; i < l; i++) {
         var segment = segments[i];
+=======
+  /**
+   * Get the flags for a regexp from the options.
+   *
+   * @param  {Object} options
+   * @return {string}
+   */
+  function flags (options) {
+    return options && options.sensitive ? '' : 'i'
+  }
+>>>>>>> b6f5b20... fix(router): fixes router collision
 
         if (segment instanceof EpsilonSegment) {
           continue;
@@ -2698,12 +2744,39 @@
     Router.installed = true;
   };
 
+<<<<<<< HEAD
   // auto install
   /* istanbul ignore if */
   if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(Router);
+=======
+  Object.defineProperties( VueRouter.prototype, prototypeAccessors );
+
+  function registerHook (list, fn) {
+    list.push(fn);
+    return function () {
+      var i = list.indexOf(fn);
+      if (i > -1) { list.splice(i, 1); }
+    }
+  }
+
+  function createHref (base, fullPath, mode) {
+    var path = mode === 'hash' ? '#' + fullPath : fullPath;
+    return base ? cleanPath(base + '/' + path) : path
+  }
+
+  VueRouter.install = install;
+  VueRouter.version = '3.1.6';
+
+  if (inBrowser && window.Vue && !window.VueRouter) {
+    window.Vue.use(VueRouter);
+>>>>>>> b6f5b20... fix(router): fixes router collision
   }
 
   return Router;
 
+<<<<<<< HEAD
 }));
+=======
+})));
+>>>>>>> b6f5b20... fix(router): fixes router collision
